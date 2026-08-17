@@ -45,9 +45,13 @@ Settings. It does not read keystrokes and does not watch what you type.
 The one network request it makes is a daily check for a newer release, which can be switched off in
 the menu bar — with it off, the app makes no network requests at all.
 
-## Releases
+## Releases and feedback
 
-This repository carries the published builds and the website. Issues and questions are welcome
-here.
+This repository carries the published builds and the website. Bug reports and feature requests are
+welcome here — note that **GitHub requires a free account to open an issue**; anonymous reports
+are not possible.
+
+- [Report a bug](https://github.com/dharmaje/shortcut-map/issues/new?template=bug_report.yml)
+- [Request a feature](https://github.com/dharmaje/shortcut-map/issues/new?template=feature_request.yml)
 
 MIT licensed.

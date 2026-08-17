@@ -242,7 +242,7 @@
     </button>
     <a class="btn btn-secondary" href="https://github.com/dharmaje/shortcut-map/releases">All releases</a>
   </div>
-  <p class="reqs">Free and open source · macOS 14+ · Apple silicon · ad-hoc signed</p>
+  <p class="reqs">Version 0.2.0 · Free and open source · macOS 14+ · Apple silicon</p>
 
   <!-- A mockup, not a screenshot: nobody's actual shortcut list is on display here. -->
   <div class="demo">
@@ -328,6 +328,30 @@
     Yellow marks a conflict — the same chord bound twice, or an app shortcut that a system
     hotkey swallows before the app ever sees it.
   </p>
+
+  <div class="card">
+    <h2>What's new in 0.2.0</h2>
+    <ul>
+      <li><b>BetterTouchTool support.</b> BTT's global triggers are invisible to every macOS API,
+        so they are read from BTT's own store and shown in cyan. Since a BTT binding taking a chord
+        from an app is usually deliberate, you can highlight, hide, or exclude them from conflicts.</li>
+      <li><b>Opens instantly.</b> The map is cached and only apps whose menus can actually have
+        changed are rescanned in the background — 2.5s down to 0.16s. A toast says what changed.</li>
+      <li><b>Hide the shortcuts every app has.</b> Copy, Paste, Minimize and the
+        <code>Window ▸ Move &amp; Resize</code> menu macOS injects everywhere are over half a
+        typical map. Show them in violet, or hide them and see only what each app adds.</li>
+      <li><b>Reach any app by number.</b> <kbd>⌘0</kbd> for everything running,
+        <kbd>⌘1</kbd>–<kbd>⌘9</kbd> per app; collapse cards, and pin the ones you use to the
+        top-left.</li>
+      <li><b>Clean uninstall.</b> From the menu bar or a one-liner, including the two files it
+        leaves behind.</li>
+      <li><b>Updates keep your Accessibility grant.</b> Builds are signed with a stable identity,
+        so macOS recognizes a new version as the same app.</li>
+    </ul>
+    <p>
+      <a href="https://github.com/dharmaje/shortcut-map/releases">Full release history →</a>
+    </p>
+  </div>
 
   <div class="card">
     <h2>What it does</h2>
@@ -430,7 +454,9 @@
   <div class="card">
     <h2>Found a problem, or want something?</h2>
     <p>
-      Bug reports and feature requests both live on GitHub, with a short form for each:
+      Bug reports and feature requests both live on GitHub, with a short form for each.
+      <b>Both need a free GitHub account</b> — GitHub does not allow anonymous issues, and there is
+      no way around that short of running a form service, which this project does not.
     </p>
     <ul>
       <li><a href="https://github.com/dharmaje/shortcut-map/issues/new?template=bug_report.yml">Report a bug</a>
