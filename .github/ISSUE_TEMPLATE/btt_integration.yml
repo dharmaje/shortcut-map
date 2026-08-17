@@ -1,0 +1,39 @@
+# Prefilled by the app itself when BetterTouchTool stops being readable — see
+# BTTIntegrationReport.swift. The field ids below are used as URL query parameters, so renaming
+# one silently breaks the prefill. Keep `details` and `claude-prompt` as they are.
+name: BetterTouchTool integration needs updating
+description: BTT changed and Shortcut Map can no longer read its triggers
+title: "[BTT]: integration needs updating"
+labels: ["enhancement", "btt"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Shortcut Map reads BetterTouchTool's keyboard triggers straight out of its data store, because BTT registers them globally and no macOS API can enumerate them. That store's schema is undocumented, so a BTT update can change it and quietly leave the integration reading nothing.
+
+        This form is usually opened by the app itself, already filled in.
+
+        > ⚠️ **Privacy:** issues are public. The details below are versions and file names only — check before submitting.
+  - type: textarea
+    id: details
+    attributes:
+      label: What changed
+      description: Versions and what the app observed. Filled in automatically when the app opens this form.
+      render: shell
+    validations:
+      required: true
+  - type: textarea
+    id: claude-prompt
+    attributes:
+      label: Prompt for investigating the change
+      description: Paste this into Claude Code in the Shortcut Map repo to work out what the new schema needs.
+      render: markdown
+    validations:
+      required: false
+  - type: textarea
+    id: notes
+    attributes:
+      label: Anything else
+      description: What you were doing, or anything you noticed about the BTT update.
+    validations:
+      required: false

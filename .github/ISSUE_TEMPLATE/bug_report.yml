@@ -1,0 +1,69 @@
+name: Bug report
+description: Report a problem with Shortcut Map
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a bug. The fields below are the ones that usually decide whether a problem can be reproduced.
+
+        > **Note:** this repo hosts the public builds and the website. The app source is private, but bug reports are very welcome here.
+
+        > ⚠️ **Privacy:** issues are public, and a shortcut map can reveal which applications you use. Redact anything you would rather not publish before pasting output or screenshots.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: What went wrong, and what you expected instead.
+      placeholder: The overlay opened but Mail's shortcuts were missing…
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Press ⌥⌘/
+        2. Select an app with ⌘3
+        3. Observe …
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Shortcut Map version
+      description: Shown along the bottom of the overlay, e.g. "Shortcut Map 0.1.0 (12)".
+      placeholder: e.g. 0.1.0 (12)
+    validations:
+      required: true
+  - type: input
+    id: macos-version
+    attributes:
+      label: macOS version
+      description: From  → About This Mac. Shortcut Map requires macOS 14+ on Apple silicon.
+      placeholder: e.g. macOS 26.6 (Apple silicon)
+    validations:
+      required: true
+  - type: dropdown
+    id: accessibility
+    attributes:
+      label: Is Accessibility access granted?
+      description: System Settings ▸ Privacy & Security ▸ Accessibility. Without it, only system and customized shortcuts can be read.
+      options:
+        - "Yes"
+        - "No"
+        - "Not sure"
+    validations:
+      required: true
+  - type: textarea
+    id: dump
+    attributes:
+      label: Output of the text dump
+      description: |
+        If you can, run this in Terminal and paste the relevant part. It is the same data the overlay shows, so redact anything sensitive.
+
+        `/Applications/ShortcutMap.app/Contents/MacOS/ShortcutMap --dump`
+      render: shell
+    validations:
+      required: false

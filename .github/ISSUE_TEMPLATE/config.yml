@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Shortcut Map website
+    url: https://shortcut-map.epel.us
+    about: What it does, how to install it, and what it cannot see.
+  - name: Download the latest build
+    url: https://github.com/dharmaje/shortcut-map/releases
+    about: Re-run the install command before reporting — your issue may already be fixed.
