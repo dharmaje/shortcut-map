@@ -278,7 +278,7 @@
     </button>
     <a class="btn btn-secondary" href="https://github.com/dharmaje/shortcut-map/releases">All releases</a>
   </div>
-  <p class="reqs">Version 0.3.1 · Free and open source · macOS 14+ · Apple silicon</p>
+  <p class="reqs">Version 0.4.0 · Free and open source · macOS 14+ · Apple silicon</p>
 
   <!-- A mockup, not a screenshot: nobody's actual shortcut list is on display here. -->
   <div class="demo">
@@ -355,7 +355,7 @@
       </div>
 
       <div class="mock-foot">
-        <span>Shortcut Map 0.3.1 — macOS 26.6</span>
+        <span>Shortcut Map 0.4.0 — macOS 26.6</span>
         <span>⌘0 all running · ⌘1–9 by app · Esc to close</span>
       </div>
     </div>
@@ -366,15 +366,24 @@
   </p>
 
   <div class="card" id="whats-new">
-    <h2>What's new in 0.3.1</h2>
+    <h2>What's new in 0.4.0</h2>
     <ul>
-      <li><b>BetterTouchTool conflicts on arrow keys are found again.</b> A trigger like
-        <kbd>⌃⌘→</kbd> was being compared against a hidden <code>fn</code> flag that only raw key
-        events carry, never menus — so BTT could quietly take an arrow shortcut from an app and it
-        would never be reported. On one machine that was five real conflicts nobody could see.</li>
-      <li><b>BetterTouchTool is no longer listed as "not running."</b> It is a menu bar agent, so it
-        does not appear among ordinary applications — but its triggers fire regardless.</li>
-      <li><b>Hiding BetterTouchTool now hides it everywhere</b>, not just in the conflicts list.</li>
+      <li><b>Select one app and it fills the screen.</b> Instead of a single narrow card, the app
+        opens out into its own menus — File, Edit, View, Window — as separate panels across the
+        full width, so you can see everything it offers at once instead of scrolling one long
+        list.</li>
+      <li><b>In the order the menus actually appear.</b> Not alphabetical: File before Edit before
+        View, matching the menu bar you already know. Each row shows only what sits below its
+        menu, since the panel is already titled with it.</li>
+    </ul>
+    <h3>0.3.1 — BetterTouchTool fixes</h3>
+    <ul>
+      <li><b>Conflicts on arrow keys are found again.</b> A trigger like <kbd>⌃⌘→</kbd> was being
+        compared against a hidden <code>fn</code> flag that only raw key events carry, never menus
+        — so BTT could quietly take an arrow shortcut from an app and it would never be reported.
+        On one machine that was five real conflicts nobody could see.</li>
+      <li>BetterTouchTool is no longer listed as "not running", and hiding it now hides it
+        everywhere rather than only in the conflicts list.</li>
     </ul>
     <h3>0.3.0 — one-click updating</h3>
     <ul>
