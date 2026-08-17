@@ -1,0 +1,488 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shortcut Map — every keyboard shortcut on your Mac</title>
+<meta name="description" content="A macOS menu bar app that shows every keyboard shortcut currently mapped on your Mac, grouped by application, with PDF and PNG export.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='2' y='7' width='28' height='18' rx='3' fill='%235b8def'/%3E%3Cg fill='%230e0f13'%3E%3Crect x='6' y='11' width='4' height='3' rx='1'/%3E%3Crect x='12' y='11' width='4' height='3' rx='1'/%3E%3Crect x='18' y='11' width='4' height='3' rx='1'/%3E%3Crect x='24' y='11' width='2' height='3' rx='1'/%3E%3Crect x='6' y='16' width='3' height='3' rx='1'/%3E%3Crect x='11' y='16' width='10' height='3' rx='1'/%3E%3Crect x='23' y='16' width='3' height='3' rx='1'/%3E%3C/g%3E%3C/svg%3E">
+<style>
+  :root {
+    --bg: #0e0f13;
+    --panel: #16181f;
+    --panel-2: #1c1f28;
+    --fg: #e7e9ee;
+    --muted: #9aa0ad;
+    --faint: #6e7482;
+    --accent: #5b8def;
+    --accent-fg: #ffffff;
+    --warn: #e8c65a;
+    --border: #262a35;
+    --code-bg: rgba(127, 127, 127, .16);
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #f6f7f9;
+      --panel: #ffffff;
+      --panel-2: #f0f2f6;
+      --fg: #1a1c22;
+      --muted: #5b6170;
+      --faint: #868c9a;
+      --accent: #2f6fe0;
+      --accent-fg: #ffffff;
+      --warn: #8a6a10;
+      --border: #e3e6ec;
+      --code-bg: rgba(127, 127, 127, .12);
+    }
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 64px 24px 96px; }
+
+  /* Header */
+  .brand { display: flex; align-items: center; gap: 12px; margin-bottom: 44px; }
+  .brand svg { display: block; }
+  .brand b { font-size: 17px; font-weight: 650; letter-spacing: -.01em; }
+
+  h1 {
+    font-size: clamp(32px, 6vw, 50px);
+    line-height: 1.08;
+    letter-spacing: -.025em;
+    margin: 0 0 18px;
+    font-weight: 680;
+  }
+  .lede { font-size: 19px; color: var(--muted); max-width: 60ch; margin: 0 0 28px; }
+
+  /* Buttons */
+  .cta { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-bottom: 14px; }
+  .btn {
+    appearance: none; border: 0; cursor: pointer;
+    background: var(--accent); color: var(--accent-fg);
+    font: inherit; font-weight: 600; font-size: 15px;
+    padding: 12px 20px; border-radius: 10px;
+    transition: background .15s ease, transform .05s ease;
+  }
+  .btn:hover { filter: brightness(1.08); }
+  .btn:active { transform: translateY(1px); }
+  .btn.copied { background: #1f9e6b; }
+  .btn-secondary {
+    background: transparent; color: var(--fg);
+    border: 1px solid var(--border);
+    text-decoration: none; display: inline-block;
+  }
+  .btn-secondary:hover { background: var(--panel-2); filter: none; }
+  .reqs { font-size: 13.5px; color: var(--faint); margin: 0 0 44px; }
+
+  /* Cards */
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px 26px;
+    margin: 18px 0;
+  }
+  .card h2 { font-size: 19px; margin: 0 0 12px; letter-spacing: -.01em; }
+  .card h3 { font-size: 15px; margin: 20px 0 6px; color: var(--fg); }
+  .card p { margin: 0 0 12px; color: var(--muted); }
+  .card p:last-child, .card ul:last-child { margin-bottom: 0; }
+  .card ul { margin: 0 0 12px; padding-left: 20px; color: var(--muted); }
+  .card li { margin-bottom: 7px; }
+  .card li b, .card p b { color: var(--fg); font-weight: 600; }
+  a { color: var(--accent); }
+
+  pre.cmd {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    padding: 12px 14px;
+    margin: 0 0 12px;
+    font: 13px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace;
+    /* Wrap rather than scroll: a half-visible install command reads as a broken page, and the
+       copy button means nobody has to select the wrapped text by hand. */
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+  code { font: 13px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace; }
+  p code, li code { background: var(--code-bg); padding: 1px 5px; border-radius: 5px; }
+
+  kbd {
+    font: 12px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 3px 6px;
+    color: var(--fg);
+  }
+
+  /* Overlay mockup */
+  .demo {
+    position: relative; left: 50%; transform: translateX(-50%);
+    width: min(94vw, 1080px);
+    margin: 34px 0 10px;
+  }
+  .mock {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    font-size: 12px;
+    box-shadow: 0 18px 50px rgba(0,0,0,.28);
+  }
+  .mock-head {
+    display: flex; align-items: center; gap: 12px;
+    padding: 11px 14px; border-bottom: 1px solid var(--border);
+  }
+  .mock-title { font-weight: 650; font-size: 13px; }
+  .mock-sub { color: var(--faint); font-size: 11px; }
+  .mock-sub .warn { color: var(--warn); }
+  .mock-search {
+    flex: 1; background: var(--code-bg); border-radius: 7px;
+    padding: 5px 10px; color: var(--faint); font-size: 11px;
+    min-width: 90px;
+  }
+  .mock-chip {
+    border: 1px solid var(--border); border-radius: 7px;
+    padding: 4px 9px; font-size: 11px; color: var(--muted); white-space: nowrap;
+  }
+  .mock-chip.warn { color: var(--warn); border-color: var(--warn); }
+  .mock-body { display: flex; min-height: 300px; }
+  .mock-side {
+    width: 168px; flex: none; border-right: 1px solid var(--border);
+    padding: 10px 8px;
+  }
+  .mock-side .row {
+    display: flex; align-items: center; gap: 6px;
+    padding: 4px 7px; border-radius: 6px; color: var(--muted);
+  }
+  .mock-side .row.on { background: color-mix(in srgb, var(--accent) 22%, transparent); color: var(--fg); }
+  .mock-side .row .n { margin-left: auto; color: var(--faint); font: 10px ui-monospace, Menlo, monospace; }
+  .mock-side .lbl {
+    font-size: 9.5px; letter-spacing: .08em; color: var(--faint);
+    padding: 10px 7px 3px; text-transform: uppercase;
+  }
+  .mock-cols { display: flex; gap: 10px; padding: 12px; flex: 1; overflow: hidden; }
+  .mock-col { flex: 1; display: flex; flex-direction: column; gap: 10px; }
+  .mock-card {
+    background: var(--panel-2); border-radius: 9px; padding: 9px 10px;
+  }
+  .mock-card .h { display: flex; align-items: center; gap: 6px; font-weight: 650; margin-bottom: 6px; }
+  .mock-card .h .c { margin-left: auto; color: var(--faint); font-weight: 400; font-size: 10px; }
+  .mock-row { display: flex; gap: 8px; align-items: baseline; margin-bottom: 4px; }
+  .mock-key {
+    font: 10.5px ui-monospace, SFMono-Regular, Menlo, monospace;
+    background: var(--code-bg); border-radius: 4px; padding: 2px 5px;
+    min-width: 46px; flex: none;
+  }
+  .mock-key.warn { color: var(--warn); background: color-mix(in srgb, var(--warn) 16%, transparent); }
+  .mock-row .t { line-height: 1.25; }
+  .mock-row .p { color: var(--faint); font-size: 9.5px; }
+  .mock-foot {
+    display: flex; justify-content: space-between; gap: 10px;
+    padding: 7px 14px; border-top: 1px solid var(--border);
+    color: var(--faint); font-size: 10px;
+  }
+  .dot { width: 13px; height: 13px; border-radius: 3.5px; flex: none; }
+  .caption { text-align: center; color: var(--faint); font-size: 13px; margin: 14px 0 0; }
+
+  footer {
+    margin-top: 56px; padding-top: 22px; border-top: 1px solid var(--border);
+    color: var(--faint); font-size: 13px;
+  }
+  footer a { color: var(--muted); }
+  footer p { margin: 0 0 8px; }
+
+  @media (max-width: 720px) {
+    .mock-side { display: none; }
+    .mock-cols > .mock-col:nth-child(n+3) { display: none; }
+    .mock { font-size: 11px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="brand">
+    <svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true">
+      <rect x="2" y="7" width="28" height="18" rx="3" fill="#5b8def"/>
+      <g fill="#0e0f13">
+        <rect x="6" y="11" width="4" height="3" rx="1"/>
+        <rect x="12" y="11" width="4" height="3" rx="1"/>
+        <rect x="18" y="11" width="4" height="3" rx="1"/>
+        <rect x="24" y="11" width="2" height="3" rx="1"/>
+        <rect x="6" y="16" width="3" height="3" rx="1"/>
+        <rect x="11" y="16" width="10" height="3" rx="1"/>
+        <rect x="23" y="16" width="3" height="3" rx="1"/>
+      </g>
+    </svg>
+    <b>Shortcut Map</b>
+  </div>
+
+  <h1>Every keyboard shortcut on your Mac, in one place.</h1>
+  <p class="lede">
+    A menu bar app that reads the menus of every running application and shows you the whole
+    map — grouped by app, searchable, and exportable to PDF or PNG. Press <kbd>⌥⌘/</kbd> and
+    there it is.
+  </p>
+
+  <div class="cta">
+    <button class="btn" type="button" id="copy-install"
+      data-cmd="curl -fsSL https://github.com/dharmaje/shortcut-map/releases/download/latest/install.sh | sh">
+      <span class="btn-label"><span aria-hidden="true">⧉</span>&nbsp; Copy install command</span>
+    </button>
+    <a class="btn btn-secondary" href="https://github.com/dharmaje/shortcut-map/releases">All releases</a>
+  </div>
+  <p class="reqs">Free and open source · macOS 14+ · Apple silicon · ad-hoc signed</p>
+
+  <!-- A mockup, not a screenshot: nobody's actual shortcut list is on display here. -->
+  <div class="demo">
+    <div class="mock">
+      <div class="mock-head">
+        <svg width="16" height="16" viewBox="0 0 32 32" aria-hidden="true">
+          <rect x="2" y="7" width="28" height="18" rx="3" fill="#5b8def"/>
+        </svg>
+        <div>
+          <div class="mock-title">Shortcut Map</div>
+          <div class="mock-sub">1,256 shortcuts across 22 apps · <span class="warn">7 conflicts</span></div>
+        </div>
+        <div class="mock-search">Search apps, menus, or a chord like ⇧⌘</div>
+        <div class="mock-chip warn">⚠ Conflicts</div>
+        <div class="mock-chip">Export</div>
+      </div>
+
+      <div class="mock-body">
+        <div class="mock-side">
+          <div class="row on"><div class="dot" style="background:#5b8def"></div> All running apps <span class="n">⌘0</span></div>
+          <div class="lbl">Running</div>
+          <div class="row"><div class="dot" style="background:#3d3f4a"></div> Terminal <span class="n">⌘1</span></div>
+          <div class="row"><div class="dot" style="background:#2f7de1"></div> Mail <span class="n">⌘2</span></div>
+          <div class="row"><div class="dot" style="background:#39a05a"></div> Numbers <span class="n">⌘3</span></div>
+          <div class="row"><div class="dot" style="background:#d2544a"></div> Photos <span class="n">⌘4</span></div>
+          <div class="row"><div class="dot" style="background:#8a63d2"></div> Notes <span class="n">⌘5</span></div>
+          <div class="row"><div class="dot" style="background:#c98a2b"></div> Preview <span class="n">⌘6</span></div>
+          <div class="row"><div class="dot" style="background:#4a4d59"></div> macOS System <span class="n">⌘7</span></div>
+        </div>
+
+        <div class="mock-cols">
+          <div class="mock-col">
+            <div class="mock-card">
+              <div class="h"><div class="dot" style="background:#3d3f4a"></div> Terminal <span class="c">42</span></div>
+              <div class="mock-row"><span class="mock-key">⌘K</span><span class="t">Clear Scrollback<div class="p">Edit</div></span></div>
+              <div class="mock-row"><span class="mock-key">⌘N</span><span class="t">New Window<div class="p">Shell</div></span></div>
+              <div class="mock-row"><span class="mock-key">⌘T</span><span class="t">New Tab<div class="p">Shell</div></span></div>
+              <div class="mock-row"><span class="mock-key warn">⌃←</span><span class="t">Move Left<div class="p">Window ▸ Move &amp; Resize</div></span></div>
+              <div class="mock-row"><span class="mock-key">⌥⌘I</span><span class="t">Inspector<div class="p">Shell</div></span></div>
+            </div>
+            <div class="mock-card">
+              <div class="h"><div class="dot" style="background:#8a63d2"></div> Notes <span class="c">31</span></div>
+              <div class="mock-row"><span class="mock-key">⇧⌘N</span><span class="t">New Folder<div class="p">File</div></span></div>
+              <div class="mock-row"><span class="mock-key">⌥⌘C</span><span class="t">Checklist<div class="p">Format</div></span></div>
+            </div>
+          </div>
+
+          <div class="mock-col">
+            <div class="mock-card">
+              <div class="h"><div class="dot" style="background:#2f7de1"></div> Mail <span class="c">54</span></div>
+              <div class="mock-row"><span class="mock-key">⌘⌫</span><span class="t">Move to Trash<div class="p">Message</div></span></div>
+              <div class="mock-row"><span class="mock-key">⇧⌘D</span><span class="t">Send<div class="p">Message</div></span></div>
+              <div class="mock-row"><span class="mock-key">⌥⌘S</span><span class="t">Sidebar<div class="p">View ▸ customized</div></span></div>
+              <div class="mock-row"><span class="mock-key">⌘R</span><span class="t">Reply<div class="p">Message</div></span></div>
+              <div class="mock-row"><span class="mock-key">⇧⌘R</span><span class="t">Reply All<div class="p">Message</div></span></div>
+              <div class="mock-row"><span class="mock-key">⌘⇧J</span><span class="t">Move to Junk<div class="p">Message</div></span></div>
+            </div>
+          </div>
+
+          <div class="mock-col">
+            <div class="mock-card">
+              <div class="h"><div class="dot" style="background:#4a4d59"></div> macOS System <span class="c">28</span></div>
+              <div class="mock-row"><span class="mock-key">⌘␣</span><span class="t">Show Spotlight search<div class="p">Keyboard Shortcuts</div></span></div>
+              <div class="mock-row"><span class="mock-key">⇧⌘4</span><span class="t">Save picture of selected area<div class="p">Keyboard Shortcuts</div></span></div>
+              <div class="mock-row"><span class="mock-key warn">⌃←</span><span class="t">Move left a space<div class="p">Keyboard Shortcuts</div></span></div>
+              <div class="mock-row"><span class="mock-key">⌃↑</span><span class="t">Mission Control<div class="p">Keyboard Shortcuts</div></span></div>
+            </div>
+            <div class="mock-card">
+              <div class="h"><div class="dot" style="background:#39a05a"></div> Numbers <span class="c">67</span></div>
+              <div class="mock-row"><span class="mock-key">⌥⌘K</span><span class="t">Add Link<div class="p">Format</div></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mock-foot">
+        <span>Shortcut Map 0.1.0 — macOS 26.6</span>
+        <span>⌘0 all running · ⌘1–9 by app · Esc to close</span>
+      </div>
+    </div>
+  </div>
+  <p class="caption">
+    Yellow marks a conflict — the same chord bound twice, or an app shortcut that a system
+    hotkey swallows before the app ever sees it.
+  </p>
+
+  <div class="card">
+    <h2>What it does</h2>
+    <ul>
+      <li><b>Reads the real thing.</b> It walks the menu bar of every running app, so the map
+        shows what your apps actually define — not a list somebody typed out once.</li>
+      <li><b>Includes the system.</b> Spotlight, Mission Control, screenshots, and anything you
+        rebound in System Settings, with your customizations taking precedence.</li>
+      <li><b>Finds conflicts.</b> Two commands on one chord, or a system hotkey shadowing an app's,
+        get called out in yellow with a conflicts-only view.</li>
+      <li><b>Gets out of the way.</b> <kbd>⌘0</kbd> for everything running, <kbd>⌘1</kbd>–<kbd>⌘9</kbd>
+        to jump to one app, click a title to collapse it, pin the ones you use to the top-left.</li>
+      <li><b>Exports.</b> A paginated PDF or a single PNG, honoring whatever you have filtered.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Install</h2>
+    <pre class="cmd"><code>curl -fsSL https://github.com/dharmaje/shortcut-map/releases/download/latest/install.sh | sh</code></pre>
+    <p>
+      It downloads the disk image, copies the app to <code>/Applications</code>, and opens it.
+      On first launch macOS asks for Accessibility access — Shortcut Map reads the menu bars of
+      running apps, so it shows very little without it.
+    </p>
+
+    <h3>Why Terminal and not a download button?</h3>
+    <p>
+      Shortcut Map is <b>ad-hoc signed, not notarized</b>, because there is no paid Apple Developer
+      account behind it. Anything a <i>browser</i> downloads gets macOS's quarantine flag, and for
+      an unnotarized app that produces a Gatekeeper dialog with no way through — the old
+      Control-click → Open escape hatch is gone. Files fetched by <code>curl</code> are never
+      quarantined, so the Terminal route avoids the problem rather than fighting it.
+    </p>
+    <p>
+      If you would rather have the disk image, take
+      <a href="https://github.com/dharmaje/shortcut-map/releases/download/latest/ShortcutMap-latest.dmg">the DMG</a>,
+      drag the app to Applications, and then run this once:
+    </p>
+    <pre class="cmd"><code>xattr -dr com.apple.quarantine /Applications/ShortcutMap.app</code></pre>
+  </div>
+
+  <div class="card">
+    <h2>Updating</h2>
+    <p>
+      Run the install command again. It is a plain overwrite and always fetches the newest build;
+      your pinned and collapsed apps are kept.
+    </p>
+    <p>
+      The app checks once a day whether a newer release exists and, if so, says so in the menu bar
+      and hands you the command. That check is <b>the only network request Shortcut Map ever
+      makes</b>, and you can switch it off in the same menu — with it off, the app makes none at all.
+    </p>
+    <p>
+      Updating should not disturb your Accessibility grant: release builds are signed with a
+      stable identity, so macOS recognizes the new version as the same app. If it does ask again,
+      granting it once more is all that is needed.
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>Uninstalling</h2>
+    <p>Either drag <code>ShortcutMap.app</code> to the Trash, or:</p>
+    <pre class="cmd"><code>curl -fsSL https://github.com/dharmaje/shortcut-map/releases/download/latest/uninstall.sh | sh</code></pre>
+    <p>
+      The menu bar icon also has <b>Uninstall Shortcut Map…</b>, which does the same thing from
+      inside the app.
+    </p>
+    <h3>What it leaves behind, if you just use the Trash</h3>
+    <ul>
+      <li><code>~/Library/Application Support/ShortcutMap/</code> — the scan cache</li>
+      <li><code>~/Library/Preferences/us.epel.ShortcutMap.plist</code> — pinned apps and settings</li>
+    </ul>
+    <p>
+      That is the whole list. The uninstaller removes both. macOS will not let any app remove its
+      own Accessibility entry, so that one is left for you in System Settings.
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>What it can't see</h2>
+    <p>
+      Shortcuts with no menu item are invisible to every API involved here, so the map will not
+      include them:
+    </p>
+    <ul>
+      <li>an editor's internal keymap — VS Code's command palette bindings, Vim inside a terminal</li>
+      <li>browser chrome shortcuts that aren't in a menu</li>
+      <li>global hotkeys other apps registered for themselves</li>
+    </ul>
+    <p>
+      Electron and Catalyst apps also fill in their submenus lazily, so a first scan can
+      under-report; rescanning fixes it, and every app card shows when it was last read.
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>About that permission</h2>
+    <p>
+      Accessibility access is a serious thing to hand out, so plainly: Shortcut Map reads
+      <b>menu item titles and their key equivalents</b> from running applications. It does not
+      read keystrokes, does not watch what you type, and sends nothing anywhere. The entire scan is
+      about two hundred lines in one file, and the source is
+      <a href="https://github.com/dharmaje/shortcut-map">on GitHub</a> — including the parts that
+      say what it gets wrong.
+    </p>
+  </div>
+
+  <footer>
+    <p>MIT licensed. Built for macOS 14 and later on Apple silicon.</p>
+    <p>
+      <a href="https://github.com/dharmaje/shortcut-map">Source</a> ·
+      <a href="https://github.com/dharmaje/shortcut-map/issues">Report a problem</a> ·
+      <a href="https://github.com/dharmaje/shortcut-map/releases">Releases</a>
+    </p>
+  </footer>
+</div>
+
+<script>
+(function () {
+  var btn = document.getElementById('copy-install');
+  if (!btn) return;
+  var label = btn.querySelector('.btn-label');
+  var original = label.innerHTML;
+  var timer;
+
+  function flash() {
+    label.textContent = '✓ Copied — paste into Terminal';
+    btn.classList.add('copied');
+    clearTimeout(timer);
+    timer = setTimeout(function () {
+      label.innerHTML = original;
+      btn.classList.remove('copied');
+    }, 2200);
+  }
+
+  btn.addEventListener('click', function () {
+    var cmd = btn.getAttribute('data-cmd');
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(cmd).then(flash, fallback);
+    } else {
+      fallback();
+    }
+    function fallback() {
+      var ta = document.createElement('textarea');
+      ta.value = cmd;
+      ta.setAttribute('readonly', '');
+      ta.style.position = 'absolute';
+      ta.style.left = '-9999px';
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); flash(); } catch (e) { /* nothing to do */ }
+      document.body.removeChild(ta);
+    }
+  });
+})();
+</script>
+</body>
+</html>
