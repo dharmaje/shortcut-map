@@ -37,7 +37,26 @@
   }
 
   * { box-sizing: border-box; }
-  html { -webkit-text-size-adjust: 100%; }
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+  [id] { scroll-margin-top: 24px; }
+
+  /* Section navigator — identical to the one on obsidian-claude-mcp.epel.us. Fixed outside the
+     760px column, so it only appears once there is room for it beside the content. */
+  .sidenav { position: fixed; top: 50%; left: 28px; transform: translateY(-50%);
+    width: 172px; z-index: 10; display: none; }
+  @media (min-width: 1200px) {
+    .sidenav { display: block; }
+  }
+  .sidenav .eyebrow { font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--muted); margin: 0 0 10px 16px; opacity: .8; }
+  .sidenav ul { list-style: none; margin: 0; padding: 0; border-left: 1px solid var(--border); }
+  .sidenav a { display: block; padding: 7px 0 7px 15px; margin-left: -1px;
+    border-left: 2px solid transparent;
+    color: var(--muted); text-decoration: none; font-size: 13.5px; line-height: 1.35;
+    opacity: .7; transition: color .15s ease, border-color .15s ease, opacity .15s ease; }
+  .sidenav a:hover { color: var(--fg); opacity: 1; }
+  .sidenav a.active { color: var(--accent); border-left-color: var(--accent);
+    font-weight: 600; opacity: 1; }
   body {
     margin: 0;
     background: var(--bg);
@@ -206,11 +225,28 @@
   }
   @media (prefers-reduced-motion: reduce) {
     * { transition: none !important; }
+    html { scroll-behavior: auto; }
   }
 </style>
 </head>
 <body>
-<div class="wrap">
+
+<nav class="sidenav" aria-label="Page sections">
+  <p class="eyebrow">On this page</p>
+  <ul>
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#whats-new">What's new</a></li>
+    <li><a href="#what-it-does">What it does</a></li>
+    <li><a href="#install">Install</a></li>
+    <li><a href="#updating">Updating</a></li>
+    <li><a href="#uninstalling">Uninstalling</a></li>
+    <li><a href="#limits">What it can't see</a></li>
+    <li><a href="#feedback">Feedback</a></li>
+    <li><a href="#permission">Permission</a></li>
+  </ul>
+</nav>
+
+<div class="wrap" id="overview">
 
   <div class="brand">
     <svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true">
@@ -319,7 +355,7 @@
       </div>
 
       <div class="mock-foot">
-        <span>Shortcut Map 0.1.0 — macOS 26.6</span>
+        <span>Shortcut Map 0.2.0 — macOS 26.6</span>
         <span>⌘0 all running · ⌘1–9 by app · Esc to close</span>
       </div>
     </div>
@@ -329,7 +365,7 @@
     hotkey swallows before the app ever sees it.
   </p>
 
-  <div class="card">
+  <div class="card" id="whats-new">
     <h2>What's new in 0.2.0</h2>
     <ul>
       <li><b>BetterTouchTool support.</b> BTT's global triggers are invisible to every macOS API,
@@ -353,7 +389,7 @@
     </p>
   </div>
 
-  <div class="card">
+  <div class="card" id="what-it-does">
     <h2>What it does</h2>
     <ul>
       <li><b>Reads the real thing.</b> It walks the menu bar of every running app, so the map
@@ -372,7 +408,7 @@
     </ul>
   </div>
 
-  <div class="card">
+  <div class="card" id="install">
     <h2>Install</h2>
     <pre class="cmd"><code>curl -fsSL https://github.com/dharmaje/shortcut-map/releases/download/latest/install.sh | sh</code></pre>
     <p>
@@ -397,7 +433,7 @@
     <pre class="cmd"><code>xattr -dr com.apple.quarantine /Applications/ShortcutMap.app</code></pre>
   </div>
 
-  <div class="card">
+  <div class="card" id="updating">
     <h2>Updating</h2>
     <p>
       Run the install command again. It is a plain overwrite and always fetches the newest build;
@@ -415,7 +451,7 @@
     </p>
   </div>
 
-  <div class="card">
+  <div class="card" id="uninstalling">
     <h2>Uninstalling</h2>
     <p>Either drag <code>ShortcutMap.app</code> to the Trash, or:</p>
     <pre class="cmd"><code>curl -fsSL https://github.com/dharmaje/shortcut-map/releases/download/latest/uninstall.sh | sh</code></pre>
@@ -434,7 +470,7 @@
     </p>
   </div>
 
-  <div class="card">
+  <div class="card" id="limits">
     <h2>What it can't see</h2>
     <p>
       Shortcuts with no menu item are invisible to every API involved here, so the map will not
@@ -451,7 +487,7 @@
     </p>
   </div>
 
-  <div class="card">
+  <div class="card" id="feedback">
     <h2>Found a problem, or want something?</h2>
     <p>
       Bug reports and feature requests both live on GitHub, with a short form for each.
@@ -471,7 +507,7 @@
     </p>
   </div>
 
-  <div class="card">
+  <div class="card" id="permission">
     <h2>About that permission</h2>
     <p>
       Accessibility access is a serious thing to hand out, so plainly: Shortcut Map reads
@@ -494,6 +530,59 @@
 </div>
 
 <script>
+// Section navigator highlighting — same implementation as obsidian-claude-mcp.epel.us.
+(function () {
+  var links = Array.prototype.slice.call(document.querySelectorAll('.sidenav a'));
+  if (!links.length) return;
+  var sections = links
+    .map(function (a) { return document.getElementById(a.getAttribute('href').slice(1)); })
+    .filter(Boolean);
+
+  function setActive(id) {
+    links.forEach(function (a) {
+      var on = a.getAttribute('href') === '#' + id;
+      a.classList.toggle('active', on);
+      if (on) { a.setAttribute('aria-current', 'true'); }
+      else { a.removeAttribute('aria-current'); }
+    });
+  }
+
+  // The active section is the last one whose top has crossed a line ~30% down
+  // the viewport. Deterministic in both scroll directions.
+  function update() {
+    // At (or near) the bottom, the last section wins — a short trailing section's
+    // top may never reach the trigger line, so it could otherwise never activate.
+    var doc = document.documentElement;
+    if (window.innerHeight + window.scrollY >= doc.scrollHeight - 2) {
+      setActive(sections[sections.length - 1].id);
+      return;
+    }
+    var line = window.innerHeight * 0.3;
+    var current = sections[0] ? sections[0].id : null;
+    for (var i = 0; i < sections.length; i++) {
+      if (sections[i].getBoundingClientRect().top <= line) { current = sections[i].id; }
+      else { break; }
+    }
+    if (current) { setActive(current); }
+  }
+
+  // Highlight immediately on click, so there's feedback even when the page can't
+  // scroll far enough to bring a bottom section to the trigger line.
+  links.forEach(function (a) {
+    a.addEventListener('click', function () { setActive(a.getAttribute('href').slice(1)); });
+  });
+
+  var ticking = false;
+  function onScroll() {
+    if (ticking) return;
+    ticking = true;
+    window.requestAnimationFrame(function () { update(); ticking = false; });
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  update();
+})();
+
 (function () {
   var btn = document.getElementById('copy-install');
   if (!btn) return;
