@@ -278,7 +278,7 @@
     </button>
     <a class="btn btn-secondary" href="https://github.com/dharmaje/shortcut-map/releases">All releases</a>
   </div>
-  <p class="reqs">Version 0.3.0 · Free and open source · macOS 14+ · Apple silicon</p>
+  <p class="reqs">Version 0.3.1 · Free and open source · macOS 14+ · Apple silicon</p>
 
   <!-- A mockup, not a screenshot: nobody's actual shortcut list is on display here. -->
   <div class="demo">
@@ -355,7 +355,7 @@
       </div>
 
       <div class="mock-foot">
-        <span>Shortcut Map 0.3.0 — macOS 26.6</span>
+        <span>Shortcut Map 0.3.1 — macOS 26.6</span>
         <span>⌘0 all running · ⌘1–9 by app · Esc to close</span>
       </div>
     </div>
@@ -366,7 +366,17 @@
   </p>
 
   <div class="card" id="whats-new">
-    <h2>What's new in 0.3.0</h2>
+    <h2>What's new in 0.3.1</h2>
+    <ul>
+      <li><b>BetterTouchTool conflicts on arrow keys are found again.</b> A trigger like
+        <kbd>⌃⌘→</kbd> was being compared against a hidden <code>fn</code> flag that only raw key
+        events carry, never menus — so BTT could quietly take an arrow shortcut from an app and it
+        would never be reported. On one machine that was five real conflicts nobody could see.</li>
+      <li><b>BetterTouchTool is no longer listed as "not running."</b> It is a menu bar agent, so it
+        does not appear among ordinary applications — but its triggers fire regardless.</li>
+      <li><b>Hiding BetterTouchTool now hides it everywhere</b>, not just in the conflicts list.</li>
+    </ul>
+    <h3>0.3.0 — one-click updating</h3>
     <ul>
       <li><b>Updating is one click.</b> When a new version is published the menu bar icon grows a
         badge, and so does the overlay next to the app's name. Clicking it downloads the build,
