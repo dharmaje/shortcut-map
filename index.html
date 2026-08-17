@@ -278,7 +278,7 @@
     </button>
     <a class="btn btn-secondary" href="https://github.com/dharmaje/shortcut-map/releases">All releases</a>
   </div>
-  <p class="reqs">Version 0.2.0 · Free and open source · macOS 14+ · Apple silicon</p>
+  <p class="reqs">Version 0.3.0 · Free and open source · macOS 14+ · Apple silicon</p>
 
   <!-- A mockup, not a screenshot: nobody's actual shortcut list is on display here. -->
   <div class="demo">
@@ -355,7 +355,7 @@
       </div>
 
       <div class="mock-foot">
-        <span>Shortcut Map 0.2.0 — macOS 26.6</span>
+        <span>Shortcut Map 0.3.0 — macOS 26.6</span>
         <span>⌘0 all running · ⌘1–9 by app · Esc to close</span>
       </div>
     </div>
@@ -366,24 +366,25 @@
   </p>
 
   <div class="card" id="whats-new">
-    <h2>What's new in 0.2.0</h2>
+    <h2>What's new in 0.3.0</h2>
     <ul>
-      <li><b>BetterTouchTool support.</b> BTT's global triggers are invisible to every macOS API,
-        so they are read from BTT's own store and shown in cyan. Since a BTT binding taking a chord
-        from an app is usually deliberate, you can highlight, hide, or exclude them from conflicts.</li>
-      <li><b>Opens instantly.</b> The map is cached and only apps whose menus can actually have
-        changed are rescanned in the background — 2.5s down to 0.16s. A toast says what changed.</li>
-      <li><b>Hide the shortcuts every app has.</b> Copy, Paste, Minimize and the
-        <code>Window ▸ Move &amp; Resize</code> menu macOS injects everywhere are over half a
-        typical map. Show them in violet, or hide them and see only what each app adds.</li>
-      <li><b>Reach any app by number.</b> <kbd>⌘0</kbd> for everything running,
-        <kbd>⌘1</kbd>–<kbd>⌘9</kbd> per app; collapse cards, and pin the ones you use to the
-        top-left.</li>
-      <li><b>Clean uninstall.</b> From the menu bar or a one-liner, including the two files it
-        leaves behind.</li>
-      <li><b>Updates keep your Accessibility grant.</b> Builds are signed with a stable identity,
-        so macOS recognizes a new version as the same app.</li>
+      <li><b>Updating is one click.</b> When a new version is published the menu bar icon grows a
+        badge, and so does the overlay next to the app's name. Clicking it downloads the build,
+        checks it, installs it and reopens — no Terminal, and your Accessibility permission and
+        settings are kept.</li>
+      <li><b>It checks who built it, not just where it came from.</b> An update only installs if it
+        is signed with the same certificate as the copy already running. A build substituted or
+        re-signed by anyone else is refused, wherever it was downloaded from.</li>
+      <li><b>Nothing is left broken if it goes wrong.</b> Anything unexpected — no write access, a
+        signature mismatch, a failed download — falls back to the install command here, and a failed
+        swap puts the working app back.</li>
+      <li><b>The name is a link.</b> Clicking "Shortcut Map" in the overlay opens this page.</li>
     </ul>
+    <p>
+      Plus everything from 0.2.0: BetterTouchTool support, instant cached loading, hiding the
+      shortcuts every app has, <kbd>⌘0</kbd>/<kbd>⌘1</kbd>–<kbd>⌘9</kbd> navigation, pinning, and a
+      clean uninstall.
+    </p>
     <p>
       <a href="https://github.com/dharmaje/shortcut-map/releases">Full release history →</a>
     </p>
