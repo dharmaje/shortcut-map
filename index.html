@@ -278,7 +278,7 @@
     </button>
     <a class="btn btn-secondary" href="https://github.com/dharmaje/shortcut-map/releases">All releases</a>
   </div>
-  <p class="reqs">Version 0.7.0 · Free and open source · macOS 14+ · Apple silicon</p>
+  <p class="reqs">Version 0.7.1 · Free and open source · macOS 14+ · Apple silicon</p>
 
   <!-- A mockup, not a screenshot: nobody's actual shortcut list is on display here. -->
   <div class="demo">
@@ -355,7 +355,7 @@
       </div>
 
       <div class="mock-foot">
-        <span>Shortcut Map 0.7.0 — macOS 26.6</span>
+        <span>Shortcut Map 0.7.1 — macOS 26.6</span>
         <span>⌘0 all running · ⌘1–9 by app · Esc to close</span>
       </div>
     </div>
@@ -366,7 +366,16 @@
   </p>
 
   <div class="card" id="whats-new">
-    <h2>What's new in 0.7.0</h2>
+    <h2>What's new in 0.7.1</h2>
+    <ul>
+      <li><b>It can open at login.</b> The installer asks once, and the menu bar icon has an
+        <b>Open at Login</b> switch either way. A menu bar app that is not running looks exactly
+        like one that was never installed, so this is worth being asked about.</li>
+      <li><b>Collapse and expand all works while you are looking at one app.</b> With a single app
+        selected the cards are its menus rather than apps, and the button was collapsing the wrong
+        thing — so it appeared to do nothing.</li>
+    </ul>
+    <h3>0.7.0 — tooltips that explain</h3>
     <ul>
       <li><b>Hover anything to find out what it is.</b> The warning icon now names what a shortcut
         actually collides with, rather than just saying there is a clash — which app, and which
@@ -477,6 +486,12 @@
       On first launch macOS asks for Accessibility access — Shortcut Map reads the menu bars of
       running apps, so it shows very little without it.
     </p>
+    <p>
+      The installer also asks whether to <b>open Shortcut Map when you log in</b>. Answering no is
+      the default, and the menu bar icon's <b>Open at Login</b> switches it either way afterwards.
+      A scripted install can answer in advance with <code>SHORTCUTMAP_LOGIN_ITEM=1</code> or
+      <code>=0</code>.
+    </p>
 
     <h3>Why Terminal and not a download button?</h3>
     <p>
@@ -524,10 +539,13 @@
     <ul>
       <li><code>~/Library/Application Support/ShortcutMap/</code> — the scan cache</li>
       <li><code>~/Library/Preferences/us.epel.ShortcutMap.plist</code> — pinned apps and settings</li>
+      <li>a login item, if you turned <b>Open at Login</b> on — that one is held by macOS rather
+        than by a file, so dragging the app to the Trash leaves it pointing at nothing</li>
     </ul>
     <p>
-      That is the whole list. The uninstaller removes both. macOS will not let any app remove its
-      own Accessibility entry, so that one is left for you in System Settings.
+      That is the whole list. The uninstaller and the in-app <b>Uninstall</b> remove all of it.
+      macOS will not let any app remove its own Accessibility entry, so that one is left for you in
+      System Settings.
     </p>
   </div>
 
