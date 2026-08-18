@@ -278,7 +278,7 @@
     </button>
     <a class="btn btn-secondary" href="https://github.com/dharmaje/shortcut-map/releases">All releases</a>
   </div>
-  <p class="reqs">Version 0.9.2 · Free · macOS 14+ · Apple silicon</p>
+  <p class="reqs">Version 0.9.3 · Free · macOS 14+ · Apple silicon</p>
 
   <!-- A mockup, not a screenshot: nobody's actual shortcut list is on display here. -->
   <div class="demo">
@@ -355,7 +355,7 @@
       </div>
 
       <div class="mock-foot">
-        <span>Shortcut Map 0.9.2 — macOS 26.6</span>
+        <span>Shortcut Map 0.9.3 — macOS 26.6</span>
         <span>⌘0 all running · ⌘1–9 by app · Esc to close</span>
       </div>
     </div>
@@ -366,7 +366,14 @@
   </p>
 
   <div class="card" id="whats-new">
-    <h2>What's new in 0.9.2</h2>
+    <h2>What's new in 0.9.3</h2>
+    <ul>
+      <li><b>The installer tells the truth about "Open at Login".</b> Re-running it could report "Not
+        set to open at login" without having checked, which read as though updating had cleared the
+        setting. It now checks first, leaves an existing setting alone, and ends by stating what the
+        setting actually is.</li>
+    </ul>
+    <h3>0.9.2 — an honest update check</h3>
     <ul>
       <li><b>"Check for Updates" no longer claims you are up to date when it could not check.</b> If it
         cannot reach GitHub — offline, or GitHub having a bad day — it now says so, rather than giving
