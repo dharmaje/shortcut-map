@@ -54,4 +54,4 @@ are not possible.
 - [Report a bug](https://github.com/dharmaje/shortcut-map/issues/new?template=bug_report.yml)
 - [Request a feature](https://github.com/dharmaje/shortcut-map/issues/new?template=feature_request.yml)
 
-MIT licensed.
+Free to use, under the MIT license (see `LICENSE`). The source is not published.

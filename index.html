@@ -278,7 +278,7 @@
     </button>
     <a class="btn btn-secondary" href="https://github.com/dharmaje/shortcut-map/releases">All releases</a>
   </div>
-  <p class="reqs">Version 0.9.2 · Free and open source · macOS 14+ · Apple silicon</p>
+  <p class="reqs">Version 0.9.2 · Free · macOS 14+ · Apple silicon</p>
 
   <!-- A mockup, not a screenshot: nobody's actual shortcut list is on display here. -->
   <div class="demo">
@@ -653,20 +653,28 @@
     <h2>About that permission</h2>
     <p>
       Accessibility access is a serious thing to hand out, so plainly: Shortcut Map reads
-      <b>menu item titles and their key equivalents</b> from running applications. It does not
-      read keystrokes, does not watch what you type, and sends nothing anywhere. The entire scan is
-      about two hundred lines in one file, and the source is
-      <a href="https://github.com/dharmaje/shortcut-map">on GitHub</a> — including the parts that
-      say what it gets wrong.
+      <b>menu item titles and their key equivalents</b> from running applications. It does not read
+      keystrokes and does not watch what you type. It makes <b>one kind of network request</b> — a
+      once-a-day check of this project's GitHub releases, which you can switch off in the menu bar, and
+      which sends nothing about your Mac. Nothing else leaves the machine: not the shortcut map, not
+      the list of apps you have installed.
+    </p>
+    <p>
+      The source is not published, so take none of that on trust alone. <a href="#uninstalling">The
+      uninstaller</a> lists every file the app creates, and Little Snitch, Lulu or macOS's own firewall
+      will show you exactly what it talks to — the one claim above that matters most, and the easiest
+      to check for yourself.
     </p>
   </div>
 
   <footer>
-    <p>MIT licensed. Built for macOS 14 and later on Apple silicon.</p>
     <p>
-      <a href="https://github.com/dharmaje/shortcut-map">Source</a> ·
-      <a href="https://github.com/dharmaje/shortcut-map/issues">Report a problem</a> ·
-      <a href="https://github.com/dharmaje/shortcut-map/releases">Releases</a>
+      Free to use, under the <a href="https://github.com/dharmaje/shortcut-map/blob/main/LICENSE">MIT
+      license</a>. The source is not published. Built for macOS 14 and later on Apple silicon.
+    </p>
+    <p>
+      <a href="https://github.com/dharmaje/shortcut-map/releases">Releases</a> ·
+      <a href="https://github.com/dharmaje/shortcut-map/issues">Report a problem</a>
     </p>
   </footer>
 </div>
