@@ -278,7 +278,7 @@
     </button>
     <a class="btn btn-secondary" href="https://github.com/dharmaje/shortcut-map/releases">All releases</a>
   </div>
-  <p class="reqs">Version 0.7.2 · Free and open source · macOS 14+ · Apple silicon</p>
+  <p class="reqs">Version 0.8.0 · Free and open source · macOS 14+ · Apple silicon</p>
 
   <!-- A mockup, not a screenshot: nobody's actual shortcut list is on display here. -->
   <div class="demo">
@@ -355,7 +355,7 @@
       </div>
 
       <div class="mock-foot">
-        <span>Shortcut Map 0.7.2 — macOS 26.6</span>
+        <span>Shortcut Map 0.8.0 — macOS 26.6</span>
         <span>⌘0 all running · ⌘1–9 by app · Esc to close</span>
       </div>
     </div>
@@ -366,7 +366,23 @@
   </p>
 
   <div class="card" id="whats-new">
-    <h2>What's new in 0.7.2</h2>
+    <h2>What's new in 0.8.0</h2>
+    <ul>
+      <li><b>The colors are yours to change.</b> <kbd>⌘,</kbd> opens Settings: the four accent colors,
+        and how much of your desktop shows through the map. What reads well for one person does not
+        for the next, and the defaults were only ever one person's eyes.</li>
+      <li><b>A color-blind friendly preset.</b> The default yellow and green sit close together if you
+        have deuteranopia or protanopia, so one preset avoids the red–green axis entirely — orange,
+        blue, purple and pale steel. There is a high-contrast preset too.</li>
+      <li><b>Every choice tells you what it costs.</b> Each color shows the contrast ratio it actually
+        achieves, measured against the worst case, and says so plainly when a color will be hard to
+        read. The background slider stops where text would stop being legible: what you can choose is
+        wide, but it does not include unreadable.</li>
+      <li><b>The color legend in the <kbd>?</kbd> guide now shows the real thing.</b> It was drawing
+        its own imitation key chips, which had missed the contrast fix in 0.7.2 — so the legend was
+        harder to read than the map it was describing.</li>
+    </ul>
+    <h3>0.7.2 — readable over any wallpaper</h3>
     <ul>
       <li><b>The map is readable whatever is behind it.</b> The overlay blurs your desktop, and a
         light wallpaper was showing through enough to wash the text out — a key chip's glyph could
@@ -523,7 +539,7 @@
     <h2>Updating</h2>
     <p>
       Run the install command again. It is a plain overwrite and always fetches the newest build;
-      your pinned and collapsed apps are kept.
+      your pinned and collapsed apps, and your colors, are kept.
     </p>
     <p>
       The app checks once a day whether a newer release exists and, if so, says so in the menu bar
