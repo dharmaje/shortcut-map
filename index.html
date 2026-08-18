@@ -278,7 +278,7 @@
     </button>
     <a class="btn btn-secondary" href="https://github.com/dharmaje/shortcut-map/releases">All releases</a>
   </div>
-  <p class="reqs">Version 0.8.0 · Free and open source · macOS 14+ · Apple silicon</p>
+  <p class="reqs">Version 0.9.0 · Free and open source · macOS 14+ · Apple silicon</p>
 
   <!-- A mockup, not a screenshot: nobody's actual shortcut list is on display here. -->
   <div class="demo">
@@ -355,7 +355,7 @@
       </div>
 
       <div class="mock-foot">
-        <span>Shortcut Map 0.8.0 — macOS 26.6</span>
+        <span>Shortcut Map 0.9.0 — macOS 26.6</span>
         <span>⌘0 all running · ⌘1–9 by app · Esc to close</span>
       </div>
     </div>
@@ -366,7 +366,23 @@
   </p>
 
   <div class="card" id="whats-new">
-    <h2>What's new in 0.8.0</h2>
+    <h2>What's new in 0.9.0</h2>
+    <ul>
+      <li><b>Light and dark, following your Mac.</b> The map now matches whatever appearance macOS is
+        set to and switches with it. Settings can pin it to one or the other if you would rather it
+        stayed put.</li>
+      <li><b>Two real palettes, not one inverted.</b> Each appearance has its own surfaces, its own
+        text color and its own four accents, because a color that works on a dark key chip does not
+        work on a light one — the dark yellow measures about 1.4:1 against a light chip. Choosing your
+        own colors in one appearance leaves the other alone.</li>
+      <li><b>Thin glyphs are accounted for.</b> A <kbd>⌘,</kbd> is mostly antialiasing, so what you
+        actually see is a blend with the chip behind it — and that costs much more contrast on a light
+        chip than on a dark one. The light accents are deeper than they look like they need to be for
+        exactly this reason, measured rather than guessed.</li>
+      <li><b>Dimmed text is stronger in dark mode.</b> The sidebar counts and footer had been checked
+        on cards but not on the panel behind them, where they were below the readable minimum.</li>
+    </ul>
+    <h3>0.8.0 — colors you can change</h3>
     <ul>
       <li><b>The colors are yours to change.</b> <kbd>⌘,</kbd> opens Settings: the four accent colors,
         and how much of your desktop shows through the map. What reads well for one person does not
