@@ -278,7 +278,7 @@
     </button>
     <a class="btn btn-secondary" href="https://github.com/dharmaje/shortcut-map/releases">All releases</a>
   </div>
-  <p class="reqs">Version 0.9.0 · Free and open source · macOS 14+ · Apple silicon</p>
+  <p class="reqs">Version 0.9.1 · Free and open source · macOS 14+ · Apple silicon</p>
 
   <!-- A mockup, not a screenshot: nobody's actual shortcut list is on display here. -->
   <div class="demo">
@@ -355,7 +355,7 @@
       </div>
 
       <div class="mock-foot">
-        <span>Shortcut Map 0.9.0 — macOS 26.6</span>
+        <span>Shortcut Map 0.9.1 — macOS 26.6</span>
         <span>⌘0 all running · ⌘1–9 by app · Esc to close</span>
       </div>
     </div>
@@ -366,7 +366,21 @@
   </p>
 
   <div class="card" id="whats-new">
-    <h2>What's new in 0.9.0</h2>
+    <h2>What's new in 0.9.1</h2>
+    <ul>
+      <li><b>Settings opens in front of the map, on the same screen.</b> It was opening behind the map,
+        and on a second monitor it could land on a different display entirely. The map itself now opens
+        on the screen you are working on rather than the one it was last left on, keeping the size you
+        chose.</li>
+      <li><b>Every color the map draws is now in Settings.</b> The selection highlight, the pin and the
+        update button were using your Mac's own accent color, and the warning banner was a fixed orange
+        — so there were colors on screen that Settings knew nothing about. There are six per appearance
+        now.</li>
+      <li><b>Contrast is reported as the color actually renders.</b> Each row shows what a thin glyph
+        achieves, not just the color's flat contrast, since the two differ by a lot. The light defaults
+        were deepened so none of them sit close to the line.</li>
+    </ul>
+    <h3>0.9.0 — light and dark</h3>
     <ul>
       <li><b>Light and dark, following your Mac.</b> The map now matches whatever appearance macOS is
         set to and switches with it. Settings can pin it to one or the other if you would rather it
