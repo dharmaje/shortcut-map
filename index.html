@@ -278,7 +278,7 @@
     </button>
     <a class="btn btn-secondary" href="https://github.com/dharmaje/shortcut-map/releases">All releases</a>
   </div>
-  <p class="reqs">Version 0.9.3 · Free · macOS 14+ · Apple silicon</p>
+  <p class="reqs">Version 1.0.0 · Free · macOS 14+ · Apple silicon</p>
 
   <!-- A mockup, not a screenshot: nobody's actual shortcut list is on display here. -->
   <div class="demo">
@@ -355,7 +355,7 @@
       </div>
 
       <div class="mock-foot">
-        <span>Shortcut Map 0.9.3 — macOS 26.6</span>
+        <span>Shortcut Map 1.0.0 — macOS 26.6</span>
         <span>⌘0 all running · ⌘1–9 by app · Esc to close</span>
       </div>
     </div>
@@ -366,7 +366,26 @@
   </p>
 
   <div class="card" id="whats-new">
-    <h2>What's new in 0.9.3</h2>
+    <h2>What's new in 1.0.0</h2>
+    <ul>
+      <li><b>Click any shortcut to use it as a filter.</b> The map drops everything else and shows
+        only that chord — every app that uses it, with the one you clicked outlined. For a flagged
+        row that is what it collides with; for anything else it is who else has claimed the same
+        keys. A chord used in one place says so. <kbd>esc</kbd> steps back out.</li>
+      <li><b>Search by chord without typing one.</b> A row of clickable keys sits under the search
+        box: <kbd>⌘</kbd> <kbd>⇧</kbd> <kbd>⌥</kbd> <kbd>⌃</kbd> <kbd>fn</kbd> and the keys you
+        cannot type into a text field — the arrows, tab, return, delete, escape, page up and down.
+        Click them in any order; <kbd>⌘⇧</kbd> and <kbd>⇧⌘</kbd> now find the same shortcuts.</li>
+      <li><b>Bigger, easier-to-read key combinations.</b> Every chord is 20% larger with a space
+        between each key, so <kbd>⌥ ⇧ ⌘ A</kbd> reads as four keys instead of one dense mark.</li>
+      <li><b>Set the size of the whole map.</b> Settings (<kbd>⌘,</kbd>) has a size control from 90%
+        to 200% that scales the text, the chords and the spacing together. It is remembered between
+        launches and across updates.</li>
+      <li><b>Hidden shortcuts no longer count as conflicts.</b> Hiding BetterTouchTool's triggers or
+        the universal shortcuts now leaves them out of conflict detection as well as out of the map,
+        so nothing is flagged because of a row you have chosen not to see.</li>
+    </ul>
+    <h3>0.9.3 — an installer that checks before it reports</h3>
     <ul>
       <li><b>The installer tells the truth about "Open at Login".</b> Re-running it could report "Not
         set to open at login" without having checked, which read as though updating had cleared the
