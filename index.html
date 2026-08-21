@@ -17,6 +17,10 @@
     --accent: #5b8def;
     --accent-fg: #ffffff;
     --warn: #e8c65a;
+    /* The conflict color as a *keycap glyph*, which is a different job from the same color as text
+       on the panel: the keycap is darker than the panel in light mode, so the light value has to be
+       deeper than --warn to clear 4.5:1. The app makes the same split, per appearance. */
+    --warn-key: #e8c65a;
     --border: #262a35;
     --code-bg: rgba(127, 127, 127, .16);
   }
@@ -31,6 +35,7 @@
       --accent: #2f6fe0;
       --accent-fg: #ffffff;
       --warn: #8a6a10;
+      --warn-key: #63490a;
       --border: #e3e6ec;
       --code-bg: rgba(127, 127, 127, .12);
     }
@@ -158,15 +163,45 @@
   .mock-head {
     display: flex; align-items: center; gap: 12px;
     padding: 11px 14px; border-bottom: 1px solid var(--border);
+    /* Above the body, so the key palette can hang over the map the way it really does. */
+    position: relative; z-index: 2;
   }
   .mock-title { font-weight: 650; font-size: 13px; }
   .mock-sub { color: var(--faint); font-size: 11px; }
   .mock-sub .warn { color: var(--warn); }
+  /* The search column: the field, the hint under it, and the key palette that opens below both. */
+  .mock-searchcol { flex: 1; min-width: 120px; position: relative; }
   .mock-search {
-    flex: 1; background: var(--code-bg); border-radius: 7px;
+    background: var(--code-bg); border-radius: 7px;
     padding: 5px 10px; color: var(--faint); font-size: 11px;
-    min-width: 90px;
+    display: flex; align-items: center; gap: 8px;
   }
+  .mock-search .grow { flex: 1; }
+  .mock-search .kbd-btn {
+    display: inline-flex; border: 1px solid var(--accent); border-radius: 4px;
+    padding: 1px 3px; line-height: 0; color: var(--accent);
+  }
+  .mock-hint { color: var(--faint); font-size: 9.5px; padding: 2px 0 0 2px; }
+  /* Positioned like the real dropdown: over the map, not pushing it down. */
+  .mock-palette {
+    position: absolute; top: 100%; left: 0; z-index: 3;
+    /* Narrow enough that 19 keys wrap into two even rows rather than one row plus a stray. */
+    width: max-content; max-width: min(342px, 74vw);
+    display: flex; flex-wrap: wrap; align-items: center; gap: 5px;
+    background: var(--panel); border: 1px solid var(--border); border-radius: 9px;
+    padding: 8px 9px; box-shadow: 0 12px 26px rgba(0,0,0,.34);
+  }
+  .mock-palette .plabel {
+    color: var(--muted); font-size: 10px; font-weight: 620; width: 100%;
+    margin-bottom: 1px;
+  }
+  .mock-palette .plabel span { font-weight: 400; color: var(--faint); }
+  .mock-pkey {
+    font: 11px ui-monospace, SFMono-Regular, Menlo, monospace;
+    background: var(--code-bg); border: 1px solid var(--border); border-radius: 5px;
+    padding: 2px 6px; min-width: 13px; text-align: center;
+  }
+  .mock-palette .sep { width: 1px; height: 14px; background: var(--border); margin: 0 3px; }
   .mock-chip {
     border: 1px solid var(--border); border-radius: 7px;
     padding: 4px 9px; font-size: 11px; color: var(--muted); white-space: nowrap;
@@ -196,11 +231,16 @@
   .mock-card .h .c { margin-left: auto; color: var(--faint); font-weight: 400; font-size: 10px; }
   .mock-row { display: flex; gap: 8px; align-items: baseline; margin-bottom: 4px; }
   .mock-key {
-    font: 10.5px ui-monospace, SFMono-Regular, Menlo, monospace;
-    background: var(--code-bg); border-radius: 4px; padding: 2px 5px;
-    min-width: 46px; flex: none;
+    font: 11.5px ui-monospace, SFMono-Regular, Menlo, monospace;
+    background: var(--code-bg); border: 1px solid transparent; border-radius: 5px;
+    padding: 2px 6px; min-width: 58px; flex: none;
   }
-  .mock-key.warn { color: var(--warn); background: color-mix(in srgb, var(--warn) 16%, transparent); }
+  /* Neutral fill, colored glyph, colored outline — the recipe the app itself uses. A tinted fill
+     under text of the same color is the pattern that made real keycaps unreadable in 0.7.1. */
+  .mock-key.warn {
+    color: var(--warn-key);
+    border-color: color-mix(in srgb, var(--warn-key) 70%, transparent);
+  }
   .mock-row .t { line-height: 1.25; }
   .mock-row .p { color: var(--faint); font-size: 9.5px; }
   .mock-foot {
@@ -291,64 +331,98 @@
           <div class="mock-title">Shortcut Map</div>
           <div class="mock-sub">1,256 shortcuts across 22 apps · <span class="warn">7 conflicts</span></div>
         </div>
-        <div class="mock-search">Search apps, menus, or a chord like ⇧⌘</div>
+        <div class="mock-searchcol">
+          <div class="mock-search">
+            <span class="grow">Search apps, menus, or a chord like ⇧ ⌘  ·  ? for help</span>
+            <span class="kbd-btn" aria-hidden="true">
+              <svg width="12" height="12" viewBox="0 0 32 32">
+                <rect x="2" y="8" width="28" height="16" rx="3" fill="none" stroke="currentColor" stroke-width="2.5"/>
+                <rect x="10" y="17" width="12" height="3" rx="1.5" fill="currentColor"/>
+              </svg>
+            </span>
+          </div>
+          <div class="mock-hint">Click item to filter by shortcut</div>
+          <div class="mock-palette" aria-hidden="true">
+            <div class="plabel">Search by chord <span>click to build one — order doesn't matter</span></div>
+            <span class="mock-pkey">⌃</span>
+            <span class="mock-pkey">⌥</span>
+            <span class="mock-pkey">⇧</span>
+            <span class="mock-pkey">⌘</span>
+            <span class="mock-pkey">fn</span>
+            <span class="sep"></span>
+            <span class="mock-pkey">←</span>
+            <span class="mock-pkey">→</span>
+            <span class="mock-pkey">↑</span>
+            <span class="mock-pkey">↓</span>
+            <span class="mock-pkey">↩</span>
+            <span class="mock-pkey">⇥</span>
+            <span class="mock-pkey">␣</span>
+            <span class="mock-pkey">⌫</span>
+            <span class="mock-pkey">⌦</span>
+            <span class="mock-pkey">⎋</span>
+            <span class="mock-pkey">⇞</span>
+            <span class="mock-pkey">⇟</span>
+            <span class="mock-pkey">↖</span>
+            <span class="mock-pkey">↘</span>
+          </div>
+        </div>
         <div class="mock-chip warn">⚠ Conflicts</div>
         <div class="mock-chip">Export</div>
       </div>
 
       <div class="mock-body">
         <div class="mock-side">
-          <div class="row on"><div class="dot" style="background:#5b8def"></div> All running apps <span class="n">⌘0</span></div>
+          <div class="row on"><div class="dot" style="background:#5b8def"></div> All running apps <span class="n">⌘ 0</span></div>
           <div class="lbl">Running</div>
-          <div class="row"><div class="dot" style="background:#3d3f4a"></div> Terminal <span class="n">⌘1</span></div>
-          <div class="row"><div class="dot" style="background:#2f7de1"></div> Mail <span class="n">⌘2</span></div>
-          <div class="row"><div class="dot" style="background:#39a05a"></div> Numbers <span class="n">⌘3</span></div>
-          <div class="row"><div class="dot" style="background:#d2544a"></div> Photos <span class="n">⌘4</span></div>
-          <div class="row"><div class="dot" style="background:#8a63d2"></div> Notes <span class="n">⌘5</span></div>
-          <div class="row"><div class="dot" style="background:#c98a2b"></div> Preview <span class="n">⌘6</span></div>
-          <div class="row"><div class="dot" style="background:#4a4d59"></div> macOS System <span class="n">⌘7</span></div>
+          <div class="row"><div class="dot" style="background:#3d3f4a"></div> Terminal <span class="n">⌘ 1</span></div>
+          <div class="row"><div class="dot" style="background:#2f7de1"></div> Mail <span class="n">⌘ 2</span></div>
+          <div class="row"><div class="dot" style="background:#39a05a"></div> Numbers <span class="n">⌘ 3</span></div>
+          <div class="row"><div class="dot" style="background:#d2544a"></div> Photos <span class="n">⌘ 4</span></div>
+          <div class="row"><div class="dot" style="background:#8a63d2"></div> Notes <span class="n">⌘ 5</span></div>
+          <div class="row"><div class="dot" style="background:#c98a2b"></div> Preview <span class="n">⌘ 6</span></div>
+          <div class="row"><div class="dot" style="background:#4a4d59"></div> macOS System <span class="n">⌘ 7</span></div>
         </div>
 
         <div class="mock-cols">
           <div class="mock-col">
             <div class="mock-card">
               <div class="h"><div class="dot" style="background:#3d3f4a"></div> Terminal <span class="c">42</span></div>
-              <div class="mock-row"><span class="mock-key">⌘K</span><span class="t">Clear Scrollback<div class="p">Edit</div></span></div>
-              <div class="mock-row"><span class="mock-key">⌘N</span><span class="t">New Window<div class="p">Shell</div></span></div>
-              <div class="mock-row"><span class="mock-key">⌘T</span><span class="t">New Tab<div class="p">Shell</div></span></div>
-              <div class="mock-row"><span class="mock-key warn">⌃←</span><span class="t">Move Left<div class="p">Window ▸ Move &amp; Resize</div></span></div>
-              <div class="mock-row"><span class="mock-key">⌥⌘I</span><span class="t">Inspector<div class="p">Shell</div></span></div>
+              <div class="mock-row"><span class="mock-key">⌘ K</span><span class="t">Clear Scrollback<div class="p">Edit</div></span></div>
+              <div class="mock-row"><span class="mock-key">⌘ N</span><span class="t">New Window<div class="p">Shell</div></span></div>
+              <div class="mock-row"><span class="mock-key">⌘ T</span><span class="t">New Tab<div class="p">Shell</div></span></div>
+              <div class="mock-row"><span class="mock-key warn">⌃ ←</span><span class="t">Move Left<div class="p">Window ▸ Move &amp; Resize</div></span></div>
+              <div class="mock-row"><span class="mock-key">⌥ ⌘ I</span><span class="t">Inspector<div class="p">Shell</div></span></div>
             </div>
             <div class="mock-card">
               <div class="h"><div class="dot" style="background:#8a63d2"></div> Notes <span class="c">31</span></div>
-              <div class="mock-row"><span class="mock-key">⇧⌘N</span><span class="t">New Folder<div class="p">File</div></span></div>
-              <div class="mock-row"><span class="mock-key">⌥⌘C</span><span class="t">Checklist<div class="p">Format</div></span></div>
+              <div class="mock-row"><span class="mock-key">⇧ ⌘ N</span><span class="t">New Folder<div class="p">File</div></span></div>
+              <div class="mock-row"><span class="mock-key">⌥ ⌘ C</span><span class="t">Checklist<div class="p">Format</div></span></div>
             </div>
           </div>
 
           <div class="mock-col">
             <div class="mock-card">
               <div class="h"><div class="dot" style="background:#2f7de1"></div> Mail <span class="c">54</span></div>
-              <div class="mock-row"><span class="mock-key">⌘⌫</span><span class="t">Move to Trash<div class="p">Message</div></span></div>
-              <div class="mock-row"><span class="mock-key">⇧⌘D</span><span class="t">Send<div class="p">Message</div></span></div>
-              <div class="mock-row"><span class="mock-key">⌥⌘S</span><span class="t">Sidebar<div class="p">View ▸ customized</div></span></div>
-              <div class="mock-row"><span class="mock-key">⌘R</span><span class="t">Reply<div class="p">Message</div></span></div>
-              <div class="mock-row"><span class="mock-key">⇧⌘R</span><span class="t">Reply All<div class="p">Message</div></span></div>
-              <div class="mock-row"><span class="mock-key">⌘⇧J</span><span class="t">Move to Junk<div class="p">Message</div></span></div>
+              <div class="mock-row"><span class="mock-key">⌘ ⌫</span><span class="t">Move to Trash<div class="p">Message</div></span></div>
+              <div class="mock-row"><span class="mock-key">⇧ ⌘ D</span><span class="t">Send<div class="p">Message</div></span></div>
+              <div class="mock-row"><span class="mock-key">⌥ ⌘ S</span><span class="t">Sidebar<div class="p">View ▸ customized</div></span></div>
+              <div class="mock-row"><span class="mock-key">⌘ R</span><span class="t">Reply<div class="p">Message</div></span></div>
+              <div class="mock-row"><span class="mock-key">⇧ ⌘ R</span><span class="t">Reply All<div class="p">Message</div></span></div>
+              <div class="mock-row"><span class="mock-key">⇧ ⌘ J</span><span class="t">Move to Junk<div class="p">Message</div></span></div>
             </div>
           </div>
 
           <div class="mock-col">
             <div class="mock-card">
               <div class="h"><div class="dot" style="background:#4a4d59"></div> macOS System <span class="c">28</span></div>
-              <div class="mock-row"><span class="mock-key">⌘␣</span><span class="t">Show Spotlight search<div class="p">Keyboard Shortcuts</div></span></div>
-              <div class="mock-row"><span class="mock-key">⇧⌘4</span><span class="t">Save picture of selected area<div class="p">Keyboard Shortcuts</div></span></div>
-              <div class="mock-row"><span class="mock-key warn">⌃←</span><span class="t">Move left a space<div class="p">Keyboard Shortcuts</div></span></div>
-              <div class="mock-row"><span class="mock-key">⌃↑</span><span class="t">Mission Control<div class="p">Keyboard Shortcuts</div></span></div>
+              <div class="mock-row"><span class="mock-key">⌘ ␣</span><span class="t">Show Spotlight search<div class="p">Keyboard Shortcuts</div></span></div>
+              <div class="mock-row"><span class="mock-key">⇧ ⌘ 4</span><span class="t">Save picture of selected area<div class="p">Keyboard Shortcuts</div></span></div>
+              <div class="mock-row"><span class="mock-key warn">⌃ ←</span><span class="t">Move left a space<div class="p">Keyboard Shortcuts</div></span></div>
+              <div class="mock-row"><span class="mock-key">⌃ ↑</span><span class="t">Mission Control<div class="p">Keyboard Shortcuts</div></span></div>
             </div>
             <div class="mock-card">
               <div class="h"><div class="dot" style="background:#39a05a"></div> Numbers <span class="c">67</span></div>
-              <div class="mock-row"><span class="mock-key">⌥⌘K</span><span class="t">Add Link<div class="p">Format</div></span></div>
+              <div class="mock-row"><span class="mock-key">⌥ ⌘ K</span><span class="t">Add Link<div class="p">Format</div></span></div>
             </div>
           </div>
         </div>
@@ -356,7 +430,7 @@
 
       <div class="mock-foot">
         <span>Shortcut Map 1.0.0 — macOS 26.6</span>
-        <span>⌘0 all running · ⌘1–9 by app · Esc to close</span>
+        <span>⌘ 0 all running · ⌘ 1–9 by app · Esc to close</span>
       </div>
     </div>
   </div>
