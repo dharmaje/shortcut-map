@@ -318,7 +318,7 @@
     </button>
     <a class="btn btn-secondary" href="https://github.com/dharmaje/shortcut-map/releases">All releases</a>
   </div>
-  <p class="reqs">Version 1.0.0 · Free · macOS 14+ · Apple silicon</p>
+  <p class="reqs">Version 1.1.0 · Free · macOS 14+ · Apple silicon</p>
 
   <!-- A mockup, not a screenshot: nobody's actual shortcut list is on display here. -->
   <div class="demo">
@@ -372,15 +372,15 @@
 
       <div class="mock-body">
         <div class="mock-side">
-          <div class="row on"><div class="dot" style="background:#5b8def"></div> All running apps <span class="n">⌘ 0</span></div>
+          <div class="row on"><div class="dot" style="background:#5b8def"></div> All running apps <span class="n">⌘ 1</span></div>
           <div class="lbl">Running</div>
-          <div class="row"><div class="dot" style="background:#3d3f4a"></div> Terminal <span class="n">⌘ 1</span></div>
-          <div class="row"><div class="dot" style="background:#2f7de1"></div> Mail <span class="n">⌘ 2</span></div>
-          <div class="row"><div class="dot" style="background:#39a05a"></div> Numbers <span class="n">⌘ 3</span></div>
-          <div class="row"><div class="dot" style="background:#d2544a"></div> Photos <span class="n">⌘ 4</span></div>
-          <div class="row"><div class="dot" style="background:#8a63d2"></div> Notes <span class="n">⌘ 5</span></div>
-          <div class="row"><div class="dot" style="background:#c98a2b"></div> Preview <span class="n">⌘ 6</span></div>
-          <div class="row"><div class="dot" style="background:#4a4d59"></div> macOS System <span class="n">⌘ 7</span></div>
+          <div class="row"><div class="dot" style="background:#3d3f4a"></div> Terminal <span class="n">⌘ 2</span></div>
+          <div class="row"><div class="dot" style="background:#2f7de1"></div> Mail <span class="n">⌘ 3</span></div>
+          <div class="row"><div class="dot" style="background:#39a05a"></div> Numbers <span class="n">⌘ 4</span></div>
+          <div class="row"><div class="dot" style="background:#d2544a"></div> Photos <span class="n">⌘ 5</span></div>
+          <div class="row"><div class="dot" style="background:#8a63d2"></div> Notes <span class="n">⌘ 6</span></div>
+          <div class="row"><div class="dot" style="background:#c98a2b"></div> Preview <span class="n">⌘ 7</span></div>
+          <div class="row"><div class="dot" style="background:#4a4d59"></div> macOS System <span class="n">⌘ 8</span></div>
         </div>
 
         <div class="mock-cols">
@@ -429,8 +429,8 @@
       </div>
 
       <div class="mock-foot">
-        <span>Shortcut Map 1.0.0 — macOS 26.6</span>
-        <span>⌘ 0 all running · ⌘ 1–9 by app · Esc to close</span>
+        <span>Shortcut Map 1.1.0 — macOS 26.6</span>
+        <span>⌘ 1 all running · ⌘ 2–9 by app · ⌘ 0 actual size · Esc to close</span>
       </div>
     </div>
   </div>
@@ -440,7 +440,19 @@
   </p>
 
   <div class="card" id="whats-new">
-    <h2>What's new in 1.0.0</h2>
+    <h2>What's new in 1.1.0</h2>
+    <ul>
+      <li><b>Resize the map from the keyboard.</b> <kbd>⌘+</kbd> and <kbd>⌘−</kbd> step the whole
+        map through the same sizes the Settings pane offers — text, chords, rows and the spacing
+        between them together — and <kbd>⌘0</kbd> goes back to the actual size. The size you land
+        on is remembered between launches and across updates, so it only has to be chosen once.</li>
+      <li><b>The app list moved up a number.</b> <kbd>⌘0</kbd> now means actual size, the way it
+        does everywhere else on the Mac, so <kbd>⌘1</kbd> is every running app and <kbd>⌘2</kbd>
+        through <kbd>⌘9</kbd> jump to one. The sidebar, the footer and the <kbd>⌘/</kbd> guide all
+        show the new numbers.</li>
+    </ul>
+
+    <h3>1.0.0 — filter by chord, and a size that fits you</h3>
     <ul>
       <li><b>Click any shortcut to use it as a filter.</b> The map drops everything else and shows
         only that chord — every app that uses it, with the one you clicked outlined. For a flagged
@@ -614,7 +626,7 @@
     </ul>
     <p>
       Plus everything from 0.2.0: BetterTouchTool support, instant cached loading, hiding the
-      shortcuts every app has, <kbd>⌘0</kbd>/<kbd>⌘1</kbd>–<kbd>⌘9</kbd> navigation, pinning, and a
+      shortcuts every app has, <kbd>⌘1</kbd>–<kbd>⌘9</kbd> navigation, pinning, and a
       clean uninstall.
     </p>
     <p>
@@ -635,7 +647,7 @@
         API, so they are read from BTT's own store and shown in cyan — and since a BTT binding
         stealing a chord is usually deliberate, you can highlight, hide, or exclude them from
         conflicts entirely.</li>
-      <li><b>Gets out of the way.</b> <kbd>⌘0</kbd> for everything running, <kbd>⌘1</kbd>–<kbd>⌘9</kbd>
+      <li><b>Gets out of the way.</b> <kbd>⌘1</kbd> for everything running, <kbd>⌘2</kbd>–<kbd>⌘9</kbd>
         to jump to one app, click a title to collapse it, pin the ones you use to the top-left.</li>
       <li><b>Exports.</b> A paginated PDF or a single PNG, honoring whatever you have filtered.</li>
     </ul>
