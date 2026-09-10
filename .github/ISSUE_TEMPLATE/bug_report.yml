@@ -41,8 +41,8 @@ body:
     id: macos-version
     attributes:
       label: macOS version
-      description: From  → About This Mac. Shortcut Map requires macOS 14+ on Apple silicon.
-      placeholder: e.g. macOS 26.6 (Apple silicon)
+      description: From  → About This Mac. Shortcut Map requires macOS 14 or later, on Apple silicon or Intel.
+      placeholder: e.g. macOS 27.0 (Apple silicon)
     validations:
       required: true
   - type: dropdown

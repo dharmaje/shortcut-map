@@ -20,7 +20,7 @@ never quarantined, so installing from Terminal avoids the problem rather than fi
 On first launch, grant Accessibility access — the app reads the menu bars of running applications
 to find their shortcuts, and shows very little without it.
 
-**Requirements:** macOS 14 or later, Apple silicon.
+**Requirements:** macOS 14 or later, on Apple silicon or Intel.
 
 ## Update
 
